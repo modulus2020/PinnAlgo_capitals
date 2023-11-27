@@ -37,7 +37,7 @@ exports.checkStatus = catchAsync(async (req, res, next) => {
   const subscription = await Subscription.findById(req.params.id);
 
   if (!subscription)
-    return next(new AppError('no subscripption with that ID', 401));
+    return next(new AppError('no subscription with that ID', 401));
 
   if (subscription.status === 'approved') {
     return next(

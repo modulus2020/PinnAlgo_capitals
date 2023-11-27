@@ -1,23 +1,37 @@
 const { Schema, model } = require('mongoose');
 
-const referralSchema = new Schema({
-  referee: {
-    type: Schema.ObjectId,
-    ref: 'User',
-    required: [true, 'a referral must have a referee'],
+const referralSchema = new Schema(
+  {
+    referee: {
+      type: Schema.ObjectId,
+      ref: 'User',
+      required: [true, 'a referral must have a referee'],
+    },
+
+    downline: {
+      type: Schema.ObjectId,
+      ref: 'User',
+      required: [true, 'a referral must have a downline'],
+    },
+
+    amount: {
+      type: Number,
+      default: 0,
+    },
   },
 
-  downline: {
-    type: Schema.ObjectId,
-    ref: 'User',
-    required: [true, 'a referral must have a downline'],
-  },
+  {
+    strict: true,
+    toJSON: {
+      virtuals: true,
+    },
+    toObject: {
+      virtuals: true,
+    },
 
-  amount: {
-    type: Number,
-    default: 0,
-  },
-});
+    timestamps: true,
+  }
+);
 
 referralSchema.pre(/^find/, function (next) {
   this.populate('downline');

@@ -37,6 +37,6 @@ router
   .route('/:id')
   .get(getSingleSubscription)
   .patch(isAdmin, checkStatus, updateSubscription)
-  .delete(deleteSubscription);
+  .delete(isAdmin, deleteSubscription);
 
 module.exports = router;
