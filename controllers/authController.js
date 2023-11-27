@@ -74,11 +74,11 @@ exports.signup = catchAsync(async (req, res, next) => {
   let newUser;
 
   if (referralLink) {
-    const { _id: referee } = await User.findOne({ referralLink });
+    const referee = await User.findOne({ referralLink });
     if (!referee) return next(new AppError('Invalid referral link', 401));
     newUser = await User.create(payload);
 
-    await Referral.create({ referee, downline: newUser._id });
+    await Referral.create({ referee: referee.id, downline: newUser._id });
   } else {
     newUser = await User.create(payload);
   }
