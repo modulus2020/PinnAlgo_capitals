@@ -19,4 +19,9 @@ const referralSchema = new Schema({
   },
 });
 
+referralSchema.pre(/^find/, function (next) {
+  this.populate('downline');
+  next();
+});
+
 module.exports = model('Referral', referralSchema, 'referrals');

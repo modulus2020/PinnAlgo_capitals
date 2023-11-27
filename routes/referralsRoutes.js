@@ -9,11 +9,15 @@ const {
   deleteReferral,
 } = require('../controllers/referralController');
 
+const { filterByUser } = require('../middlewares/referralMiddlewares');
+
 const router = express.Router();
 
 router.use(protect);
 
 router.route('/').get(getAllReferrals);
+
+router.get('/my-referrals', filterByUser, getAllReferrals);
 
 router
   .route('/:id')
