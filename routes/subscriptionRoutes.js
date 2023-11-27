@@ -1,7 +1,7 @@
 const express = require('express');
 const imageupload = require('express-fileupload');
 
-const { protect } = require('../controllers/authController');
+const { protect, isAdmin } = require('../controllers/authController');
 
 const {
   getAllSubscriptions,
@@ -15,6 +15,7 @@ const {
   attachUser,
   calculateAmount,
   uploadAttachments,
+  checkStatus,
 } = require('../middlewares/subscriptionMiddleware');
 
 const router = express.Router();
@@ -35,7 +36,7 @@ router
 router
   .route('/:id')
   .get(getSingleSubscription)
-  .patch(updateSubscription)
+  .patch(isAdmin, checkStatus, updateSubscription)
   .delete(deleteSubscription);
 
 module.exports = router;

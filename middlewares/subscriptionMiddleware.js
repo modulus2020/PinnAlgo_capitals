@@ -1,3 +1,5 @@
+const Subscription = require('../models/subscriptionModel');
+
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
@@ -28,5 +30,20 @@ exports.uploadAttachments = catchAsync(async (req, res, next) => {
 
     req.body.attachments = attachments;
   }
+  next();
+});
+
+exports.checkStatus = catchAsync(async (req, res, next) => {
+  const subscription = await Subscription.findById(req.params.id);
+
+  if (!subscription)
+    return next(new AppError('no subscripption with that ID', 401));
+
+  if (subscription.status === 'approved') {
+    return next(
+      new AppError('This subscription has already been approved', 403)
+    );
+  }
+
   next();
 });

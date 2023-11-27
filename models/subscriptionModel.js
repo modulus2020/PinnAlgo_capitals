@@ -1,6 +1,7 @@
 const { Schema, model } = require('mongoose');
 
 const Referral = require('./referralModel');
+const User = require('./userModel');
 
 const subscriptionSchema = new Schema(
   {
@@ -22,7 +23,7 @@ const subscriptionSchema = new Schema(
 
     status: {
       type: String,
-      enum: ['pending', 'accepted', 'rejected'],
+      enum: ['pending', 'approved', 'rejected'],
       default: 'pending',
     },
   },
@@ -40,20 +41,21 @@ const subscriptionSchema = new Schema(
   }
 );
 
-subscriptionSchema.pre('save', async function (next) {
-  if (this.isDirectModified('status') && this.status === 'accepted') {
+subscriptionSchema.post('findOneAndUpdate', async function (doc) {
+  if (doc.status === 'approved') {
     // Credit referrer
-    const referral = await Referral.findOne({ downline: this._id });
+    const referral = await Referral.findOne({ downline: doc.user });
 
-    await Referral.updateOne({ _id: referral._id }, { amount: +this.amount });
+    await Referral.updateOne(
+      { _id: referral._id },
+      { amount: +doc.amount * 0.1 }
+    );
 
     await User.updateOne(
       { _id: referral.referee },
-      { $inc: { wallet: +this.amount } }
+      { $inc: { wallet: +doc.amount * 0.1 } }
     );
   }
-
-  next();
 });
 
 module.exports = model('Subscription', subscriptionSchema, 'subscriptions');

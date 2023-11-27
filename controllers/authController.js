@@ -162,7 +162,8 @@ exports.protect = catchAsync(async (req, res, next) => {
 });
 
 exports.isAdmin = catchAsync(async (req, res, next) => {
-  if (req.user._doc.role !== 'admin') {
+  const isAllowed = ['admin', 'super-admin'];
+  if (!isAllowed.includes(req.user.role)) {
     return next(new AppError('only admins can access this route', 401));
   }
   next();
