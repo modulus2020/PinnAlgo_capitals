@@ -5,6 +5,7 @@ const crypto = require('crypto');
 const { promisify } = require('util');
 
 const User = require('../models/userModel');
+const Referral = require('../models/referralModel');
 
 const catchAsync = require('../utils/catchAsync');
 const sendResponse = require('../utils/sendResponse');
@@ -59,11 +60,28 @@ const createAndSendTokenWithEmail = async (
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
-  const { firstName, lastName, email, password, passwordConfirm } = req.body;
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    passwordConfirm,
+    referralLink,
+  } = req.body;
 
   const payload = { firstName, lastName, email, password, passwordConfirm };
 
-  const newUser = await User.create(payload);
+  let newUser;
+
+  if (referralLink) {
+    const { _id: referee } = await User.findOne({ referralLink });
+    if (!referee) return next(new AppError('Invalid referral link', 401));
+    newUser = await User.create(payload);
+
+    await Referral.create({ referee, downline: newUser._id });
+  } else {
+    newUser = await User.create(payload);
+  }
 
   createAndSendToken(newUser, 201, res, next);
 });

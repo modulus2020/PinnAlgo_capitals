@@ -1,8 +1,12 @@
+const { v4: uuidv4 } = require('uuid');
+
 const crypto = require('crypto');
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const tokenEncrypt = require('../utils/tokenEncrypt');
+
+const Referral = require('./referralModel');
 
 const userSchema = new mongoose.Schema(
   {
@@ -31,25 +35,27 @@ const userSchema = new mongoose.Schema(
     },
 
     active: { type: Boolean, default: true },
-
     role: {
       type: String,
       enum: ['user', 'admin', 'super-admin'],
       default: 'user',
     },
 
-    // confirmPassword: {
-    //   type: String,
-    //   validate: {
-    //     validator: function (value) {
-    //       return value === this.password;
-    //     },
-    //   },
-    // },
+    wallet: { type: Number, default: 0 },
+
+    confirmPassword: {
+      type: String,
+      validate: {
+        validator: function (value) {
+          return value === this.password;
+        },
+      },
+    },
 
     passwordResetTokenExpires: Date,
     passwordChangedAt: Date,
     passwordResetToken: String,
+    referralLink: String,
 
     status: {
       type: String,
@@ -57,7 +63,6 @@ const userSchema = new mongoose.Schema(
     },
 
     otp: Number,
-
     otpExpiration: Date,
   },
   {
@@ -81,6 +86,9 @@ userSchema.pre('save', async function (next) {
     // 2) Remove confirmPassword field
     this.confirmPassword = undefined;
   }
+
+  this.referralLink = uuidv4();
+
   next();
 });
 
