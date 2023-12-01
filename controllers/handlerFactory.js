@@ -25,16 +25,12 @@ exports.getAll = (Model) =>
     const count = await Model.count(queryObj);
 
     const doc = await features.query;
-    const total = Math.ceil(count / limit);
+    // const total = Math.ceil(count / limit);
 
     // SEND RESPONSE
     res.status(200).json({
       status: 'success',
       results: doc.length,
-      total_pages: total,
-      page,
-      next_page: page * 1 < total ? page * 1 + 1 : null,
-      prev: page * 1 > 1 ? page * 1 - 1 : null,
       doc,
     });
   });
