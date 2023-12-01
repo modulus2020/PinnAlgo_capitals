@@ -1,5 +1,7 @@
 const { Schema, model } = require('mongoose');
 
+const User = require('./userModel');
+
 const referralSchema = new Schema(
   {
     referee: {
@@ -36,6 +38,11 @@ const referralSchema = new Schema(
 referralSchema.pre(/^find/, function (next) {
   this.populate('downline');
   next();
+});
+
+referralSchema.post('save', async function (doc) {
+  const referrals = await this.constructor.countDocuments({ referee: doc.id });
+  await User.findByIdAndUpdate(doc.referee, { totalReferrals: referrals });
 });
 
 module.exports = model('Referral', referralSchema, 'referrals');

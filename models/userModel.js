@@ -6,8 +6,6 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const tokenEncrypt = require('../utils/tokenEncrypt');
 
-const Referral = require('./referralModel');
-
 const userSchema = new mongoose.Schema(
   {
     firstName: {
@@ -56,6 +54,16 @@ const userSchema = new mongoose.Schema(
     passwordChangedAt: Date,
     passwordResetToken: String,
     referralLink: String,
+
+    totalReferrals: {
+      type: Number,
+      default: 0,
+    },
+
+    referralBonus: {
+      type: Number,
+      default: 0,
+    },
 
     status: {
       type: String,

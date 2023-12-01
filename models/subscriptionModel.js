@@ -53,7 +53,7 @@ subscriptionSchema.post('findOneAndUpdate', async function (doc) {
 
     await User.updateOne(
       { _id: referral.referee },
-      { $inc: { wallet: +doc.amount * 0.1 } }
+      { $inc: { wallet: +doc.amount * 0.1, referralBonus: +doc.amount * 0.1 } }
     );
   }
 });

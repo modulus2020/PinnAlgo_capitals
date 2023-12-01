@@ -11,7 +11,7 @@ const withdrawalSchema = new Schema(
 
     amount: {
       type: Number,
-      min: 5,
+      min: 20,
       required: [true, 'a withrawal must have a user'],
     },
 
