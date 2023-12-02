@@ -70,6 +70,7 @@ const userSchema = new mongoose.Schema(
       default: 'active',
     },
 
+    walletAddress: String,
     otp: Number,
     otpExpiration: Date,
   },
