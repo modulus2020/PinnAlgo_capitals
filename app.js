@@ -37,7 +37,7 @@ const limiter = rateLimit({
 app.use(cors());
 
 // Limit request from the same API
-app.use('/api', limiter);
+// app.use('/api', limiter);
 
 // Body Parser (To parse body form the request that was made || Reading Request from the body || PUT, POST, PATCH requests)
 app.use(express.json({ limit: '10mb' }));
