@@ -12,6 +12,8 @@ exports.getAll = (Model) =>
       .limitFields()
       .paginate();
 
+    console.log('hello here', features);
+
     let { page, limit } = req.query;
     page = page ? page * 1 : 1;
     limit = limit ? limit * 1 : 10;
@@ -22,7 +24,7 @@ exports.getAll = (Model) =>
 
     // 1B)Advanced Filtering
 
-    const count = await Model.count(queryObj);
+    // const count = await Model.count(queryObj);
 
     const doc = await features.query;
     // const total = Math.ceil(count / limit);

@@ -26,9 +26,9 @@ const upload = async (file) => {
     fields: 'id,webViewLink',
   });
 
-  // return `https://drive.google.com/uc?export=view&id=${res.data.id}`;
+  return `https://drive.google.com/uc?export=view&id=${res.data.id}`;
   // return res.data.webViewLink;
-  return `https://drive.google.com/uc?export=download&id=${res.data.id}`;
+  // return `https://drive.google.com/uc?export=download&id=${res.data.id}`;
 };
 
 module.exports = upload;

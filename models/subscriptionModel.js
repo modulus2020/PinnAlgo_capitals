@@ -16,6 +16,11 @@ const subscriptionSchema = new Schema(
       required: [true, 'subscription must have an attachment'],
     },
 
+    transaction_hash: {
+      type: String,
+      required: [true, 'subscription must have a transaction hash'],
+    },
+
     amount: {
       type: Number,
       required: [true, 'subscription must have an amount'],
