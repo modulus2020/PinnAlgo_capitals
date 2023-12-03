@@ -46,6 +46,11 @@ const subscriptionSchema = new Schema(
   }
 );
 
+subscriptionSchema.pre(/^find/, function (next) {
+  this.populate('user');
+  next();
+});
+
 subscriptionSchema.post('findOneAndUpdate', async function (doc) {
   if (doc.status === 'approved') {
     // Credit referrer
