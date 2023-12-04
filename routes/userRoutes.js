@@ -30,8 +30,13 @@ router.post('/send-otp', authController.sendOtp);
 router.post('/verify-otp', authController.verifyOtp);
 router.post('/refresh-token', authController.refreshToken);
 
-router.route('/').get(userController.getAllUsers);
+router.use(authController.protect);
 
-router.route('/:id').get(userController.getUser);
+router.route('/').get(authController.isAdmin, userController.getAllUsers);
+
+router
+  .route('/:id')
+  .get(userController.getUser)
+  .patch(authController.isSuperAdmin, userController.updateUser);
 
 module.exports = router;

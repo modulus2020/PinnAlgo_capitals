@@ -169,6 +169,13 @@ exports.isAdmin = catchAsync(async (req, res, next) => {
   next();
 });
 
+exports.isSuperAdmin = catchAsync(async (req, res, next) => {
+  if (req.user.role !== 'super-admin') {
+    return next(new AppError('only super admins can access this route', 401));
+  }
+  next();
+});
+
 exports.isActive = (req, res, next) => {
   if (req.user.status !== 'active') {
     return next(
