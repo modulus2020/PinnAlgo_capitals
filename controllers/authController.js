@@ -11,6 +11,7 @@ const catchAsync = require('../utils/catchAsync');
 const sendResponse = require('../utils/sendResponse');
 const sendEmail = require('../utils/email');
 const AppError = require('../utils/appError');
+const generateReferralLink = require('../utils/generateReferralLink');
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 

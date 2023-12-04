@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const tokenEncrypt = require('../utils/tokenEncrypt');
+const generateRandom10DigitNumber = require('../utils/generateReferralLink');
 
 const userSchema = new mongoose.Schema(
   {
@@ -53,7 +54,7 @@ const userSchema = new mongoose.Schema(
     passwordResetTokenExpires: Date,
     passwordChangedAt: Date,
     passwordResetToken: String,
-    referralLink: String,
+    referralLink: Number,
 
     totalReferrals: {
       type: Number,
@@ -96,7 +97,7 @@ userSchema.pre('save', async function (next) {
     this.confirmPassword = undefined;
   }
 
-  this.referralLink = uuidv4();
+  this.referralLink = generateRandom10DigitNumber();
 
   next();
 });
