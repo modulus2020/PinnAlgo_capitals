@@ -52,3 +52,22 @@ exports.filterByUser = catchAsync(async (req, res, next) => {
   req.query.user = req.user.id;
   next();
 });
+
+exports.getServerDetails = catchAsync(async (req, res, next) => {
+  const { server, mt4Login, password } = req.body;
+
+  const subscription = await Subscription.findById(req.params.id);
+
+  if (!subscription)
+    return next(new AppError('no subscription with that ID', 401));
+
+  if (subscription.user.id !== req.user.id) {
+    return next(
+      new AppError('You cannot update subscription of another user', 401)
+    );
+  }
+
+  req.body = { server, mt4Login, password };
+
+  next();
+});

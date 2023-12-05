@@ -17,6 +17,7 @@ const {
   uploadAttachments,
   checkStatus,
   filterByUser,
+  getServerDetails,
 } = require('../middlewares/subscriptionMiddleware');
 
 const router = express.Router();
@@ -41,5 +42,11 @@ router
   .get(getSingleSubscription)
   .patch(isAdmin, checkStatus, updateSubscription)
   .delete(isAdmin, deleteSubscription);
+
+router.patch(
+  '/:id/update-mt4-mt5-details',
+  getServerDetails,
+  updateSubscription
+);
 
 module.exports = router;
