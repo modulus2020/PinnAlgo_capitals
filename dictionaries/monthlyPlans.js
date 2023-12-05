@@ -1,7 +1,10 @@
 const plans = {
-  '3-months': 0.09,
-  '6-months': 0.18,
-  '1-year': 0.36,
+  '3-months': { value: 0.09, compute: (number) => 0.1 * number },
+  '6-months': {
+    value: 0.18,
+    compute: (number) => 0.2 * number - 0.01 * number,
+  },
+  '1-year': { value: 0.36, compute: (number) => 0.1 * 12 * 0.3 * number },
 };
 
 module.exports = plans;

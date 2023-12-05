@@ -17,7 +17,7 @@ exports.calculateAmount = catchAsync(async (req, res, next) => {
   if (!plans[duration])
     return next(new AppError('Please input a valid duration', 403));
 
-  req.body.amount = plans[duration] * accountSize + 10;
+  req.body.amount = plans[duration].compute(accountSize);
 
   next();
 });
@@ -45,5 +45,10 @@ exports.checkStatus = catchAsync(async (req, res, next) => {
     );
   }
 
+  next();
+});
+
+exports.filterByUser = catchAsync(async (req, res, next) => {
+  req.query.user = req.user.id;
   next();
 });

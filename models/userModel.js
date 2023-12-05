@@ -42,6 +42,11 @@ const userSchema = new mongoose.Schema(
 
     wallet: { type: Number, default: 0 },
 
+    subscription: {
+      type: Object,
+      default: null,
+    },
+
     confirmPassword: {
       type: String,
       validate: {

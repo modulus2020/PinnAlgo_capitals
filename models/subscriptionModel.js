@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 const { Schema, model } = require('mongoose');
 
 const Referral = require('./referralModel');
@@ -21,6 +23,11 @@ const subscriptionSchema = new Schema(
       required: [true, 'subscription must have a transaction hash'],
     },
 
+    duration: {
+      type: String,
+      required: [true, 'subscription must have a duration'],
+    },
+
     amount: {
       type: Number,
       required: [true, 'subscription must have an amount'],
@@ -30,6 +37,10 @@ const subscriptionSchema = new Schema(
       type: String,
       enum: ['pending', 'approved', 'rejected'],
       default: 'pending',
+    },
+
+    expiration: {
+      type: Date,
     },
   },
 
@@ -46,6 +57,13 @@ const subscriptionSchema = new Schema(
   }
 );
 
+subscriptionSchema.pre('save', function (next) {
+  const [data] = this.duration.split('-');
+  const timeline = data === '1' ? 12 : +data;
+  this.expiration = moment().add(timeline, 'months');
+  next();
+});
+
 subscriptionSchema.pre(/^find/, function (next) {
   this.populate('user');
   next();
@@ -56,15 +74,21 @@ subscriptionSchema.post('findOneAndUpdate', async function (doc) {
     // Credit referrer
     const referral = await Referral.findOne({ downline: doc.user });
 
-    await Referral.updateOne(
-      { _id: referral._id },
-      { amount: +doc.amount * 0.1 }
-    );
+    if (referral) {
+      await Referral.updateOne(
+        { _id: referral._id },
+        { amount: +doc.amount * 0.1 }
+      );
 
-    await User.updateOne(
-      { _id: referral.referee },
-      { $inc: { wallet: +doc.amount * 0.1, referralBonus: +doc.amount * 0.1 } }
-    );
+      await User.updateOne(
+        { _id: referral.referee },
+        {
+          $inc: { wallet: +doc.amount * 0.1, referralBonus: +doc.amount * 0.1 },
+        }
+      );
+    }
+
+    await User.findByIdAndUpdate(doc.user, { subscription: doc });
   }
 });
 

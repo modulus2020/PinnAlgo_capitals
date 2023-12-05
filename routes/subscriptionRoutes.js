@@ -16,6 +16,7 @@ const {
   calculateAmount,
   uploadAttachments,
   checkStatus,
+  filterByUser,
 } = require('../middlewares/subscriptionMiddleware');
 
 const router = express.Router();
@@ -32,6 +33,8 @@ router
     uploadAttachments,
     createSubscription
   );
+
+router.get('/my-subscriptions', filterByUser, getAllSubscriptions);
 
 router
   .route('/:id')
