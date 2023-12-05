@@ -9,6 +9,7 @@ const {
   createSubscription,
   updateSubscription,
   deleteSubscription,
+  getActiveSubscriptionsCount,
 } = require('../controllers/subscriptionController');
 
 const {
@@ -36,6 +37,7 @@ router
   );
 
 router.get('/my-subscriptions', filterByUser, getAllSubscriptions);
+router.get('/active-subscriptions-count', getActiveSubscriptionsCount);
 
 router
   .route('/:id')
