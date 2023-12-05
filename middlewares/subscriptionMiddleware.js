@@ -39,7 +39,7 @@ exports.checkStatus = catchAsync(async (req, res, next) => {
   if (!subscription)
     return next(new AppError('no subscription with that ID', 401));
 
-  if (subscription.status === 'approved') {
+  if (subscription.status === 'approved' && req.body.status === 'approved') {
     return next(
       new AppError('This subscription has already been approved', 403)
     );

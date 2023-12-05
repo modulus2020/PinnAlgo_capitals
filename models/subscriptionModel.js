@@ -42,6 +42,10 @@ const subscriptionSchema = new Schema(
     expiration: {
       type: Date,
     },
+
+    server: String,
+    mt4Login: String,
+    password: String,
   },
 
   {
