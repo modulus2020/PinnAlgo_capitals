@@ -259,7 +259,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   // because of the data modification done by the instance method we need to save the document again
   await user.save({ validateBeforeSave: false });
   // 3) Send Email
-  const resetURL = `https://${resetToken}.com`;
+  const resetURL = `https://pinnaglo.com/reset-password/${resetToken}.com`;
 
   const text = `Forgot your password? Submit a PATCH request with your new password and confirmPassword to ${resetURL}\n If you didn't initiate this action you can simply ignore this message`;
 
@@ -271,7 +271,6 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     });
     sendResponse(null, res, 200, { message: 'Token Sent To Mail' });
   } catch (err) {
-    console.log('eerorr oh', err);
     // If error sending mail remove the passwordResetToken and expiry time from db
     user.passwordResetToken = undefined;
     user.passwordResetTokenExpires = undefined;
