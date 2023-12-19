@@ -14,6 +14,7 @@ const subscriptionRouter = require('./routes/subscriptionRoutes');
 const referralRouter = require('./routes/referralsRoutes');
 const withdrawalRouter = require('./routes/withdrawalRoutes');
 const ticketRouter = require('./routes/ticketRoutes');
+const contactRouter = require('./routes/contactRoutes');
 
 const app = express();
 
@@ -65,6 +66,7 @@ app.use('/api/v1/subscriptions', subscriptionRouter);
 app.use('/api/v1/referrals', referralRouter);
 app.use('/api/v1/withdrawals', withdrawalRouter);
 app.use('/api/v1/tickets', ticketRouter);
+app.use('/api/v1/contacts', contactRouter);
 
 app.all('*', (req, res, next) => {
   const err = new AppError(`Can't find ${req.originalUrl} on this server`, 404);
