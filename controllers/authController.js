@@ -92,7 +92,9 @@ exports.login = catchAsync(async (req, res, next) => {
 
   if (email && password) {
     // Find User From Database
-    const payload = req.query.admin ? { email, role: 'admin' } : { email };
+    const payload = req.query.admin
+      ? { email, $or: [{ role: 'admin' }, { role: 'super-admin' }] }
+      : { email };
     const user = await User.findOne(payload).select('+password');
 
     // Checks if user does not exists in db and password is incorrect

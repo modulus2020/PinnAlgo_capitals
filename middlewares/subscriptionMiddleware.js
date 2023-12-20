@@ -23,8 +23,8 @@ exports.calculateAmount = catchAsync(async (req, res, next) => {
 });
 
 exports.uploadAttachments = catchAsync(async (req, res, next) => {
-  if (req.files) {
-    const attachments = await handleUpload(req.files.attachments);
+  if (req.body.attachments) {
+    const attachments = await handleUpload(req.body.attachments);
 
     req.body.attachments = [attachments];
   }
