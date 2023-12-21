@@ -388,7 +388,7 @@ exports.refreshToken = catchAsync(async (req, res, next) => {
     process.env.JWT_REFRESH_SECRET
   );
 
-  const { token } = signToken(decoded.id);
+  const token = signToken(decoded.id);
 
   res.status(200).json({
     status: 'success',
