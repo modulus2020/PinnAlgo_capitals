@@ -261,7 +261,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   // because of the data modification done by the instance method we need to save the document again
   await user.save({ validateBeforeSave: false });
   // 3) Send Email
-  const resetURL = `https://pinnaglo.com/reset-password/${resetToken}.com`;
+  const resetURL = `https://pinnaglo-frontend.vercel.app/resetPassword?token=${resetToken}`;
 
   const text = `Forgot your password? Submit a PATCH request with your new password and confirmPassword to ${resetURL}\n If you didn't initiate this action you can simply ignore this message`;
 
