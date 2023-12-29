@@ -33,6 +33,11 @@ const subscriptionSchema = new Schema(
       required: [true, 'subscription must have an amount'],
     },
 
+    accountSize: {
+      type: Number,
+      required: [true, 'subscription must have an account size'],
+    },
+
     status: {
       type: String,
       enum: ['pending', 'approved', 'rejected'],
