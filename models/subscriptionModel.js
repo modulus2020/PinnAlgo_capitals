@@ -36,6 +36,7 @@ const subscriptionSchema = new Schema(
     accountSize: {
       type: Number,
       required: [true, 'subscription must have an account size'],
+      min: [1000, 'account size has a minimum of $1,000'],
     },
 
     status: {
