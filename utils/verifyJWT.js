@@ -4,10 +4,8 @@ const { promisify } = require('util');
 module.exports = async (token, refreshToken) => {
   try {
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-    console.log(decoded);
     return decoded;
   } catch (error) {
-    console.log(error.message);
     const decoded = await promisify(jwt.verify)(
       refreshToken,
       process.env.JWT_REFRESH_SECRET

@@ -41,11 +41,9 @@ referralSchema.pre(/^find/, function (next) {
 });
 
 referralSchema.post('save', async function (doc) {
-  console.log('this is the doc', doc);
   const referrals = await this.constructor.countDocuments({
     referee: doc.referee,
   });
-  console.log('referrals', referrals);
   await User.findByIdAndUpdate(doc.referee, { totalReferrals: referrals });
 });
 
