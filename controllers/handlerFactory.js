@@ -9,10 +9,7 @@ exports.getAll = (Model) =>
     const features = new APIFeatures(Model.find(), req.query)
       .filter()
       .sort()
-      .limitFields()
-      .paginate();
-
-    console.log('hello here', features);
+      .limitFields();
 
     let { page, limit } = req.query;
     page = page ? page * 1 : 1;
