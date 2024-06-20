@@ -52,6 +52,7 @@ const subscriptionSchema = new Schema(
     server: String,
     mt4Login: String,
     password: String,
+    serverType: String,
   },
 
   {
