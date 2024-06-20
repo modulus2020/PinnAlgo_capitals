@@ -45,6 +45,28 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.updateEmail = catchAsync(async (req, res, next) => {
+
+  if (!req.body.email) {
+    return next(
+      new AppError(
+        'User email is required',
+        400
+      )
+    );
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(req.user.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json({
+    status: 'success',
+    message: "User updated successfully"
+  });
+});
+
 exports.deleteMe = catchAsync(async (req, res, next) => {
   await User.findByIdAndUpdate(req.user.id, { active: false });
 

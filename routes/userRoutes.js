@@ -26,6 +26,9 @@ router.get(
 router.patch('/updateMe', authController.protect, userController.updateMe);
 router.delete('/deleteMe', authController.protect, userController.deleteMe);
 
+router.put('/update-email', authController.isAdmin, userController.updateEmail);
+
+
 router.post('/send-otp', authController.sendOtp);
 router.post('/verify-otp', authController.verifyOtp);
 router.post('/refresh-token', authController.refreshToken);
