@@ -26,7 +26,7 @@ router.get(
 router.patch('/updateMe', authController.protect, userController.updateMe);
 router.delete('/deleteMe', authController.protect, userController.deleteMe);
 
-router.put('/update-email', authController.isAdmin, userController.updateEmail);
+router.put('/update-email/:id', authController.isAdmin, userController.updateEmail);
 
 
 router.post('/send-otp', authController.sendOtp);
