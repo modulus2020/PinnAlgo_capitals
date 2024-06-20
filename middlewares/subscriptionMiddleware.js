@@ -52,7 +52,7 @@ exports.filterByUser = catchAsync(async (req, res, next) => {
 });
 
 exports.getServerDetails = catchAsync(async (req, res, next) => {
-  const { server, mt4Login, password } = req.body;
+  const { server, serverType, mt4Login, password } = req.body;
 
   const subscription = await Subscription.findById(req.params.id);
 
@@ -65,7 +65,7 @@ exports.getServerDetails = catchAsync(async (req, res, next) => {
     );
   }
 
-  req.body = { server, mt4Login, password };
+  req.body = { server, serverType, mt4Login, password };
 
   next();
 });
